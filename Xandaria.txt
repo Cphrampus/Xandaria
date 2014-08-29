@@ -1,0 +1,4 @@
+Start screen
+Easy way to add decisions/stories later
+Simple score system
+Disable keyboard except when asking for an answer, maybe have keyboard force everything to print at once?
