@@ -57,6 +57,7 @@ void start_story(){
       else{
         TYPE("Please type y or n...\n\r");
         read(0, &answer, 1);
+        printf("%c\r\n", answer);
         continue;
       }
     } while(answer != 'y' && answer != 'n');
@@ -69,7 +70,7 @@ int check_score(){//Check score variables to choose ending
   return score;
 }
 
-void end_game(int num){//Choose ending based on score, if that is used
+void end_game(int num){//Choose ending based on score
   system("stty cooked");
   switch(num){
     case 0:
