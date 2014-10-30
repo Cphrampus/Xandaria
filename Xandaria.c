@@ -8,18 +8,22 @@ to save a girl he would never love. He will realize that everything he thought h
 and that there is a power within him he will never know...";
 
 int main(){
-  system("stty raw");
+  system("stty raw; clear");
   intro();
   start_story();
   int ending = check_score();
   end_game(ending);
+  system("stty cooked; clear");
 }
 
 void intro(){//Run intro sequence
   TYPE(intro_text);
+  delay(PAUSE*2);
 }
 
 void type_text(char* string){//Print text on screen to simulate typing
+  //int discard = open("/dev/null", O_WRONLY), din = dup(0);
+  //dup2(discard, 0);
   int size = strlen(string);
   for(int i = 0; i < size; i++) {
     write(1, string++, 1);
@@ -29,6 +33,8 @@ void type_text(char* string){//Print text on screen to simulate typing
       delay(LINE);
     }
   }
+ // dup2(0, din);
+  //close(discard);
 }
 
 void start_story(){
@@ -40,10 +46,15 @@ void start_story(){
   char *text[] = {"And so it begins... ", "Fine, we didn't want you anyway...", "Welcome, Brave Hero. Your Journey Awaits...", 
     "If you aren't going to be a hero, get out!", "You gain 10 gold.", "You did the right thing."};
   int i = 0, j = 0, maxd = sizeof(decisions)/sizeof(char *), maxt = sizeof(text)/sizeof(char *), flag = 0;
+  system("clear");
   while(i < maxd && j < maxt){
     TYPE(decisions[i]);
+    //fseek(stdin, 0, SEEK_END);
+    //fpurge(stdin);
+    //scanf("%*c");
     read(0, &answer, 1);
     printf("%c\r\n", answer);
+    delay(LINE);
     //write(1, &answer, 1);
     //answer = getchar();
     do{
@@ -52,12 +63,17 @@ void start_story(){
       }
       else if(answer == 'n'){
         TYPE(text[(i<<1)+1]);
-        if(!flag) return;
+        if(!flag){
+          score = -1;
+          return;
+        }
       }
       else{
-        TYPE("Please type y or n...\n\r");
+        TYPE("Please type y or n...");
+        fseek(stdin, 0, SEEK_END);
         read(0, &answer, 1);
         printf("%c\r\n", answer);
+        delay(LINE);
         continue;
       }
     } while(answer != 'y' && answer != 'n');
@@ -71,10 +87,12 @@ int check_score(){//Check score variables to choose ending
 }
 
 void end_game(int num){//Choose ending based on score
-  system("stty cooked");
   switch(num){
+    case -1:
+      TYPE("You were never fit to be a hero.\r\nLeave us at once!");
+      break;
     case 0:
-      TYPE("You did nothing...\nWhy?");
+      TYPE("You did nothing...\r\nWhy?");
       break;
     case 1:
       break;

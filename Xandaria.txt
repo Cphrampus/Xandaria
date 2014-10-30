@@ -2,3 +2,11 @@ Start screen
 Easy way to add decisions/stories later
 Simple score system
 Disable keyboard except when asking for an answer, maybe have keyboard force everything to print at once?
+
+score system, based on previous decisions, as well as, maybe, some type of points at the end, no sure yet.
+need a way to keep track of previous decisions, maybe a bitstring where, for every decision, the string is shifted, and if they answer y, 1 is added.
+will not allow keeping track of all decisions, but all should not be necessary, the last 31 should be fine, assuming that there exists some transitivity, i.e. whatever decisions which would allow the current decision, should be represented in the past 31 e.g. decision 41 needs 12 and 25 to have been yes, and 35 is only asked if they were.
+this runs into issues, since if the decision is not given, it will be replaces and there is no way to mark that in a bitstring
+maybe just an char array, y for y, n for n, and x for not given, then the decisions will be written as a struct, and a string field will specify which, if any, it depends on. then the string can be parsed and the elements checked.
+
+global ternary string, 0 for n, 1 for y, 2 for na, then just use array accessing to check, maybe use second string to mark decisions not given, 0 for not given, 1 for given, then if the elements from both are true, it works

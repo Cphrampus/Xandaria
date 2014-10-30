@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include <fcntl.h>
 #define TYPE(a) type_pause(a)
 #ifdef DEBUG
 #define SPEED 0
